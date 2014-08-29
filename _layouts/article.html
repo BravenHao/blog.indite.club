@@ -8,17 +8,17 @@
 {% include banner.html %}
 <div class="container" style="margin-top:30px;">
 	<div class="col-md-3">
-		<ul>
-			<li><a href="">第一章</a></li>
-			<li><a href="">第二章</a></li>
-			<li><a href="">第三章</a></li>
-			<li><a href="">第四章</a></li>
-			<li><a href="">第五章</a></li>
-			<li><a href="">第七章</a></li>
-			<li><a href="">第八章</a></li>
-			<li><a href="">第九章</a></li>
-			<li><a href="">第十章</a></li>
-		</ul>
+		<div class="col-xs-12 col-md-12">
+		    <a href="#" class="thumbnail">
+		      <img src="/resources/images/bookcover/{{ page.categories }}.jpg" alt="..." style="height: 240px; width: 100%; display: block;">
+		    </a>
+		    <table class="table table-hover">
+			  	<thead><tr><th colspan="2">林言传</th></tr></thead>
+			  	<tbody>
+			  		<tr><td>作者：</td><td>布丁</td></tr>
+			  	</tbody>
+			</table>
+		  </div>
 	</div>
 	<div class="col-md-9">
 　		{{ content }}
