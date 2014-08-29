@@ -3,10 +3,11 @@ layout: article
 title: 文章列表
 categories:101
 ---
-	　　<h2>{{ page.title }}</h2>{{post.categories}}
+	　　<h2>{{ page.title }}</h2>
 	　　<h4><span class="glyphicon glyphicon-send"></span> 最近更新</h4>
 	    <ul>
 	　　　　{% for post in site.posts %}
+	<a href="#">{{post.categories}}</a>
 				{% if post.categories == 'article' %}
 	　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
 				{% endif %}
