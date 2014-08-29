@@ -1,1 +1,3 @@
 baseurl:/blog.indite.club
+pygments:true
+timezone:Asia/Hong_Kong
