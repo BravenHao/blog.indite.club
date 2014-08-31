@@ -1,10 +1,9 @@
 ---
 layout: default
-title: 文学收集
+title: 墨妄的博客
 ---
 
-	　　<h2>{{ page.title }}</h2>
-	　　<h4><span class="glyphicon glyphicon-send"></span> 最近更新</h4>
+	　　<h4><span class="glyphicon glyphicon-send"></span> 最新博文</h4>
 	    <ul>
 	　　　　{% for post in site.posts %}
 	　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
