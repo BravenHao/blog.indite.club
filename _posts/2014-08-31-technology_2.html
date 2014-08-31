@@ -1,0 +1,193 @@
+---
+layout: default
+title: 使用flexpaper实现PWD转swf在线阅读
+category: T01
+---
+<h2>{{ page.title }}</h2>
+<pre>
+1.	工具准备 
+swftools.exe 下载 
+http://www.swftools.org/download.html 
+安装至D盘 
+SWFTools提供了一系列将各种文件转成swf的工具： 
+font2swf.exe 
+gif2swf.exe 
+jpeg2swf.exe 
+pdf2swf.exe 
+png2swf.exe 
+wav2swf.exe 
+这里我们只使用pdf2swf.exe 
+我用的版本是：swftools-2013-04-09-1007.exe
+
+flexpaper下载 
+http://code.google.com/p/flexpaper/ 
+这里我们使用已经编译好的FlexPaper的flash版本
+ 我用的版本是：FlexPaper_1.4.7_flash.zip
+把FlexPaper下载解压到项目的webRoot目录下
+    	<div style="position:absolute;left:10px;top:10px;">
+	        <a id="viewerPlaceHolder" style="width:660px;height:480px;display:block"></a>
+	        
+	        <script type="text/javascript"> 
+				var fp = new FlexPaperViewer(	
+						 'FlexPaper/FlexPaperViewer',
+						 'viewerPlaceHolder', { config : {
+						 SwfFile : escape(Paper.swf'),
+						 Scale : 0.6, 
+						 ZoomTransition : 'easeOut',
+						 ZoomTime : 0.5,
+						 ZoomInterval : 0.2,
+						 FitPageOnLoad : true,
+						 FitWidthOnLoad : false,
+						 FullScreenAsMaxWindow : false,
+						 ProgressiveLoading : false,
+						 MinZoomSize : 0.2,
+						 MaxZoomSize : 5,
+						 SearchMatchAll : false,
+						 InitViewMode : 'Portrait',
+						 PrintPaperAsBitmap : false,
+						 
+						 ViewModeToolsVisible : true,
+						 ZoomToolsVisible : true,
+						 NavToolsVisible : true,
+						 CursorToolsVisible : true,
+						 SearchToolsVisible : true,
+  						
+  						 localeChain: 'en_US'
+						 }});
+	        </script>
+        </div>
+ 
+ 
+ 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
+/*
+* PDF转SWF工具
+* @author tangs
+*
+*/
+public class Converter {
+	public static int convertPDF2SWF(String sourcePath, String destPath, String fileName) throws IOException {
+//		//目标路径不存在则建立目标路径
+		File dest = new File(destPath);
+		if (!dest.exists()) dest.mkdirs();
+		
+		//源文件不存在则返回
+		File source = new File(sourcePath);
+		if (!source.exists()) return 0;
+		
+		//调用pdf2swf命令进行转换
+//		String command = "D:\\swftools\\pdf2swf.exe" + " -o \"" + destPath  + fileName +"\"  <SPAN style='COLOR: #ff0000'>-s languagedir=D:\\xpdf\\xpdf-chinese-simplified</SPAN> -s flashversion=9 \"" + sourcePath + "\"";
+//		String command = "D:\\swftools\\pdf2swf.exe" + " -o \"" + destPath  +  fileName +"\" -s flashversion=9 \"" + sourcePath + "\"";
+		String command= "D:/SWFTools/pdf2swf.exe  -t \""+destPath+"\\Java.pdf\" -o  \""+destPath+"\\test.swf\" -s flashversion=9 -s languagedir=D:\\xpdf\\xpdf-chinese-simplified ";  
+		System.out.println("cmd:"+command);
+		Process process = Runtime.getRuntime().exec(command); // 调用外部程序   
+		final InputStream is1 = process.getInputStream();   
+		new Thread(new Runnable() {   
+		    public void run() {   
+		        BufferedReader br = new BufferedReader(new InputStreamReader(is1));    
+		        try {
+					while(br.readLine()!= null) ;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}   
+		    }   
+		}).start(); // 启动单独的线程来清空process.getInputStream()的缓冲区   
+		InputStream is2 = process.getErrorStream();   
+		BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));    
+		StringBuilder buf = new StringBuilder(); // 保存输出结果流   
+		String line = null;   
+		while((line = br2.readLine()) != null) buf.append(line); // 循环等待ffmpeg进程结束   
+		System.out.println("输出结果为：" + buf);
+		
+//		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+		while (br2.readLine() != null); 
+		
+		try {
+			process.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return process.exitValue();
+
+		
+	}
+
+	
+	public static void main(String []args) throws IOException {
+		String sourcePath = "D:\\Java.pdf";
+		String destPath = "D:\\";
+		String fileName = "Javssa.swf";
+		try{
+		Converter.convertPDF2SWF(sourcePath, destPath, fileName);
+		
+		}catch(Exception ex)
+		{
+			System.out.println("error");
+		}
+		System.out.println("success");
+	
+		
+		
+	}
+}
+2.	使用WINDOW的用户大多会直接点开pdf2swf.exe，然后丢个文件过去，接着就等软件生成swf文件了。如果出现问题，那么可以看下面的方法。
+3.	电脑左下开始菜单，点击运行，输入cmd，ENTER，在命令还输入：
+注意：以下括号均为注释，实际操作时不用输入
+C:\Users\haohui>d:
+
+D:\>cd "Program Files\swftools"（进入你的swftools安装目录）
+
+D:\Program Files\swftools>pdf2swf.exe –t（设置需要转换的文件路径） "C:\Users\haohui\Desktop\AAC.pdf" –s（添加设置项） fl
+ashversion=9  -o（设置生成文件路径） "C:\Users\haohui\Desktop\AAC.swf"
+
+Error: Unknown character collection 'Adobe-GB1'
+这是我遇到的第一个问题，这是因为缺少字符集所致，解决方法如下：
+1.	安装字符集：
+进入网站：http://www.foolabs.com/xpdf/download.html
+分别下载：xpdfbin-win-3.04.zip，xpdf-chinese-simplified.tar.gz
+（实际情况视自己缺少的字符集而定，我这里缺少的是Adobe-GB1，所以我下载的是简体中文字符集）
+配置xpdf及字符集
+1：解压xpdfbin-win-3.04.zip，解压后修改名称为xpdf，并将其考到D盘根目录下【路径可以随意指定，但是执行pdf2swf指令时要指定到当前目录】。
+2：解压xpdf-chinese-simplified.tar.gz，将xpdf-chinese-simplified放置xpdf目录下
+3：修改xpdf-chinese-simplified目录下的add-to-xpdfrc文件
+Add-to-xpdfrc代码
+#----- begin Chinese Simplified support package (2004-jul-27)
+cidToUnicode        Adobe-GB1         D:\xpdf\xpdf-chinese-simplified\Adobe-GB1.cidToUnicode 
+unicodeMap            ISO-2022-CN    D:\xpdf\xpdf-chinese-simplified\ISO-2022-CN.unicodeMap 
+unicodeMap    EUC-CN        D:\xpdf\xpdf-chinese-simplified\EUC-CN.unicodeMap 
+unicodeMap    GBK     D:\xpdf\xpdf-chinese-simplified\GBK.unicodeMap 
+cMapDir     Adobe-GB1    D:\xpdf\xpdf-chinese-simplified\CMap 
+toUnicodeDir  D:\xpdf\xpdf-chinese-simplified\CMap 
+fontDir C:\WINDOWS\Fonts 
+displayCIDFontTT Adobe-GB1 C:\WINDOWS\Fonts\simhei.ttf 
+#displayCIDFontTT	Adobe-GB1	/usr/..../gkai00mp.ttf
+#----- end Chinese Simplified support package
+可以看到上面标红的那部分代码指定了Adobe-GB1字符集的路径，就是我刚刚安装的路径。
+再次在命令行输入如下命令：
+D:\Program Files\swftools>pdf2swf.exe -t "C:\Users\haohui\Desktop\AAC.pdf" -s flashversion=9 -s languagedir="D:\xpdf\xpdf-chinese-simplified" -o "C:\Users\haohu
+i\Desktop\AAC.swf"
+同样，标红部分为添加设置字符集的路径，执行命令后：
+ERROR   This file is too complex to render- SWF only supports 65536 shapes at once
+
+这是我遇到的第二个问题，这是因为需要转换的文件太大，解决方法如下：
+D:\Program Files\swftools>pdf2swf.exe -t "C:\Users\haohui\Desktop\AAC.pdf" -s flashversion=9 -s languagedir="D:\xpdf\xpdf-chinese-simplified" -s poly2bitmap –o "C:\Users\haohui\Desktop\AAC.swf"
+同样，红色文字我增加了-s poly2bitmap，这个命令让程序转换时只对文件图形转成矩阵。
+下面列出三种转换的优先级，因为和转换的速度有关系，所以不要都用下面的啦
+ pdf2swf 1.pdf -o 1.swf -f -T 9 -G -s poly2bitmap    只对文件中的图形转成点阵
+ pdf2swf 1.pdf -o 1.swf -f -T 9 -G -s bitmap    对everything 转成点阵
+pdf2swf 1.pdf -o 1.swf -f -T 9 -G -s enablezlib  bitmap    对everything 转成点阵，并通过enablezlib压缩
+处理这个问题可以按上面的方法，在转换时加入参数-s poly2bitmap 或者其他的来将文件中的图形转成点阵，这个是由于文件大太或者文件图形过多而引起的异常，所以建议在转换的过程时加入了文件的大小的判断，当文件过大时，就加入这个参数，不然就直接转，因为我测试的时候，不加入这个参数时，转换的速度快一点。
+命令运行后，显示：
+NOTICE  Writing SWF file C:\Users\haohui\Desktop\AAC.swf
+好了，文件已经生成成功！
+
+</pre>

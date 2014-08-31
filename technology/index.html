@@ -1,0 +1,14 @@
+---
+layout: article
+title: 技术文档列表
+category:T00
+---
+	　　<h2>{{ page.title }}</h2>
+	　　<h4><span class="glyphicon glyphicon-send"></span> 最近更新</h4>
+	    <ul>
+	　　　　{% for post in site.posts %}
+				{% if post.category == 'T01' %}
+	　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+				{% endif %}
+	　　　　{% endfor %}
+	　　</ul>
