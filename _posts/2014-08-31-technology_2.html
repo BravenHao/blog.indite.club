@@ -1,38 +1,38 @@
 ---
 layout: default
 title: 使用flexpaper实现PWD转swf在线阅读
-category: T01
+category: A01
 ---
 <h2>{{ page.title }}</h2>
 <pre>
-1.	工具准备 
-swftools.exe 下载 
-http://www.swftools.org/download.html 
-安装至D盘 
-SWFTools提供了一系列将各种文件转成swf的工具： 
-font2swf.exe 
-gif2swf.exe 
-jpeg2swf.exe 
-pdf2swf.exe 
-png2swf.exe 
-wav2swf.exe 
-这里我们只使用pdf2swf.exe 
+1.	工具准备
+swftools.exe 下载
+http://www.swftools.org/download.html
+安装至D盘
+SWFTools提供了一系列将各种文件转成swf的工具：
+font2swf.exe
+gif2swf.exe
+jpeg2swf.exe
+pdf2swf.exe
+png2swf.exe
+wav2swf.exe
+这里我们只使用pdf2swf.exe
 我用的版本是：swftools-2013-04-09-1007.exe
 
-flexpaper下载 
-http://code.google.com/p/flexpaper/ 
+flexpaper下载
+http://code.google.com/p/flexpaper/
 这里我们使用已经编译好的FlexPaper的flash版本
  我用的版本是：FlexPaper_1.4.7_flash.zip
 把FlexPaper下载解压到项目的webRoot目录下
     	<div style="position:absolute;left:10px;top:10px;">
 	        <a id="viewerPlaceHolder" style="width:660px;height:480px;display:block"></a>
-	        
-	        <script type="text/javascript"> 
-				var fp = new FlexPaperViewer(	
+
+	        <script type="text/javascript">
+				var fp = new FlexPaperViewer(
 						 'FlexPaper/FlexPaperViewer',
 						 'viewerPlaceHolder', { config : {
 						 SwfFile : escape(Paper.swf'),
-						 Scale : 0.6, 
+						 Scale : 0.6,
 						 ZoomTransition : 'easeOut',
 						 ZoomTime : 0.5,
 						 ZoomInterval : 0.2,
@@ -45,20 +45,20 @@ http://code.google.com/p/flexpaper/
 						 SearchMatchAll : false,
 						 InitViewMode : 'Portrait',
 						 PrintPaperAsBitmap : false,
-						 
+
 						 ViewModeToolsVisible : true,
 						 ZoomToolsVisible : true,
 						 NavToolsVisible : true,
 						 CursorToolsVisible : true,
 						 SearchToolsVisible : true,
-  						
+
   						 localeChain: 'en_US'
 						 }});
 	        </script>
         </div>
- 
- 
- 
+
+
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -76,67 +76,67 @@ public class Converter {
 //		//目标路径不存在则建立目标路径
 		File dest = new File(destPath);
 		if (!dest.exists()) dest.mkdirs();
-		
+
 		//源文件不存在则返回
 		File source = new File(sourcePath);
 		if (!source.exists()) return 0;
-		
+
 		//调用pdf2swf命令进行转换
 //		String command = "D:\\swftools\\pdf2swf.exe" + " -o \"" + destPath  + fileName +"\"  <SPAN style='COLOR: #ff0000'>-s languagedir=D:\\xpdf\\xpdf-chinese-simplified</SPAN> -s flashversion=9 \"" + sourcePath + "\"";
 //		String command = "D:\\swftools\\pdf2swf.exe" + " -o \"" + destPath  +  fileName +"\" -s flashversion=9 \"" + sourcePath + "\"";
-		String command= "D:/SWFTools/pdf2swf.exe  -t \""+destPath+"\\Java.pdf\" -o  \""+destPath+"\\test.swf\" -s flashversion=9 -s languagedir=D:\\xpdf\\xpdf-chinese-simplified ";  
+		String command= "D:/SWFTools/pdf2swf.exe  -t \""+destPath+"\\Java.pdf\" -o  \""+destPath+"\\test.swf\" -s flashversion=9 -s languagedir=D:\\xpdf\\xpdf-chinese-simplified ";
 		System.out.println("cmd:"+command);
-		Process process = Runtime.getRuntime().exec(command); // 调用外部程序   
-		final InputStream is1 = process.getInputStream();   
-		new Thread(new Runnable() {   
-		    public void run() {   
-		        BufferedReader br = new BufferedReader(new InputStreamReader(is1));    
+		Process process = Runtime.getRuntime().exec(command); // 调用外部程序
+		final InputStream is1 = process.getInputStream();
+		new Thread(new Runnable() {
+		    public void run() {
+		        BufferedReader br = new BufferedReader(new InputStreamReader(is1));
 		        try {
 					while(br.readLine()!= null) ;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}   
-		    }   
-		}).start(); // 启动单独的线程来清空process.getInputStream()的缓冲区   
-		InputStream is2 = process.getErrorStream();   
-		BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));    
-		StringBuilder buf = new StringBuilder(); // 保存输出结果流   
-		String line = null;   
-		while((line = br2.readLine()) != null) buf.append(line); // 循环等待ffmpeg进程结束   
+				}
+		    }
+		}).start(); // 启动单独的线程来清空process.getInputStream()的缓冲区
+		InputStream is2 = process.getErrorStream();
+		BufferedReader br2 = new BufferedReader(new InputStreamReader(is2));
+		StringBuilder buf = new StringBuilder(); // 保存输出结果流
+		String line = null;
+		while((line = br2.readLine()) != null) buf.append(line); // 循环等待ffmpeg进程结束
 		System.out.println("输出结果为：" + buf);
-		
+
 //		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(pro.getInputStream()));
-		while (br2.readLine() != null); 
-		
+		while (br2.readLine() != null);
+
 		try {
 			process.waitFor();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return process.exitValue();
 
-		
+
 	}
 
-	
+
 	public static void main(String []args) throws IOException {
 		String sourcePath = "D:\\Java.pdf";
 		String destPath = "D:\\";
 		String fileName = "Javssa.swf";
 		try{
 		Converter.convertPDF2SWF(sourcePath, destPath, fileName);
-		
+
 		}catch(Exception ex)
 		{
 			System.out.println("error");
 		}
 		System.out.println("success");
-	
-		
-		
+
+
+
 	}
 }
 2.	使用WINDOW的用户大多会直接点开pdf2swf.exe，然后丢个文件过去，接着就等软件生成swf文件了。如果出现问题，那么可以看下面的方法。
@@ -161,14 +161,14 @@ Error: Unknown character collection 'Adobe-GB1'
 3：修改xpdf-chinese-simplified目录下的add-to-xpdfrc文件
 Add-to-xpdfrc代码
 #----- begin Chinese Simplified support package (2004-jul-27)
-cidToUnicode        Adobe-GB1         D:\xpdf\xpdf-chinese-simplified\Adobe-GB1.cidToUnicode 
-unicodeMap            ISO-2022-CN    D:\xpdf\xpdf-chinese-simplified\ISO-2022-CN.unicodeMap 
-unicodeMap    EUC-CN        D:\xpdf\xpdf-chinese-simplified\EUC-CN.unicodeMap 
-unicodeMap    GBK     D:\xpdf\xpdf-chinese-simplified\GBK.unicodeMap 
-cMapDir     Adobe-GB1    D:\xpdf\xpdf-chinese-simplified\CMap 
-toUnicodeDir  D:\xpdf\xpdf-chinese-simplified\CMap 
-fontDir C:\WINDOWS\Fonts 
-displayCIDFontTT Adobe-GB1 C:\WINDOWS\Fonts\simhei.ttf 
+cidToUnicode        Adobe-GB1         D:\xpdf\xpdf-chinese-simplified\Adobe-GB1.cidToUnicode
+unicodeMap            ISO-2022-CN    D:\xpdf\xpdf-chinese-simplified\ISO-2022-CN.unicodeMap
+unicodeMap    EUC-CN        D:\xpdf\xpdf-chinese-simplified\EUC-CN.unicodeMap
+unicodeMap    GBK     D:\xpdf\xpdf-chinese-simplified\GBK.unicodeMap
+cMapDir     Adobe-GB1    D:\xpdf\xpdf-chinese-simplified\CMap
+toUnicodeDir  D:\xpdf\xpdf-chinese-simplified\CMap
+fontDir C:\WINDOWS\Fonts
+displayCIDFontTT Adobe-GB1 C:\WINDOWS\Fonts\simhei.ttf
 #displayCIDFontTT	Adobe-GB1	/usr/..../gkai00mp.ttf
 #----- end Chinese Simplified support package
 可以看到上面标红的那部分代码指定了Adobe-GB1字符集的路径，就是我刚刚安装的路径。

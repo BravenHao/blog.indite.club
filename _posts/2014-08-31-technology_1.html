@@ -1,7 +1,7 @@
 ---
 layout: default
 title: linux服务器开通FTP账户
-category: T01
+category: A01
 ---
 <h2>{{ page.title }}</h2>
 <pre>
@@ -25,9 +25,9 @@ passwd username
 如果不想让这个用户使用ftp，则需要将其添加到黑名单中，即将用户username添加到/etc/vsftpd/ftpusers中。
 4.	对用户添加访问限制：
 限定用户username不能telnet，只能ftp:
-usermod -s /sbin/nologin username 
+usermod -s /sbin/nologin username
 用户username恢复正常:
-usermod -s /bin/bash username 
+usermod -s /bin/bash username
 更改用户username的主目录为/path:
 usermod -d /path username
 限制用户只能访问/home/test，不能访问其他路径
