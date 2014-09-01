@@ -1,4 +1,4 @@
 baseurl:/blog.indite.club
 pygments:true
 timezone:Asia/Hong_Kong
-exclude:[./_layout/docs.html]
+exclude:['/_layout/docs.html']
