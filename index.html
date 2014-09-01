@@ -4,7 +4,7 @@ title: 墨妄的博客
 ---
 		<ul>
 	　　　　{% for post in site.posts %}
-	　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>{% if post.previous %}&nbsp;<label class="label label-danger">new</label>{% endif %}</li>
+	　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}" title="{{ post | json }}">{{ post.title }}</a>{% if post.previous %}&nbsp;<label class="label label-danger">new</label>{% endif %}</li>
 	　　　　{% endfor %}
 	　　</ul>
 
