@@ -71,6 +71,7 @@ custom_css: true
 	<div class="rows">
 	　{% for post in site.posts %}
 	{{page|json}}
+	<em>{{post|json}}</em>
 		{% if post.category == 'F01' %}
 		<div class="col-md-3">
 			<a href="#" class="thumbnail">
