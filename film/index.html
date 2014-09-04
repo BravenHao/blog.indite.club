@@ -69,6 +69,7 @@ category: F00
 	</div>
 	<div class="rows">
 	　{% for post in site.posts %}
+		{{ post|json }}
 		{% if post.category == 'F01' %}
 		<div class="col-md-3">
 			<a href="{{post.url}}" class="thumbnail">
