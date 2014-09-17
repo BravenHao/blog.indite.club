@@ -67,15 +67,18 @@ category: F00
 		</div>
 	  </div>
 	</div>
-	<div class="rows">
-		<div class="col-md-9">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+	    <h3 class="panel-title">影片列表</h3>
+	  </div>
+	  <div class="panel-body">
 		　{% for post in site.posts %}
 			{% if post.category == 'F01' %}
 			<div class="col-md-3">
 				<a href="{{post.url}}" class="thumbnail">
-			      <img src="/resources/images/film/{{post.tag}}" alt="..." style="height: 300px; width: 100%; display: block;">
+			      <img src="/resources/images/film/{{post.tag}}" alt="..." style="height: 360px; width: 100%; display: block;">
 			    </a>
-			    <h4><a href="{{post.url}}"><strong>{{post.title}}</strong></a></h4>
+			    <h4 class="text-center"><a href="{{post.url}}"><strong>{{post.title}}</strong></a></h4>
 			</div>
 			{% endif %}
 	　　　{% endfor %}
