@@ -68,16 +68,18 @@ category: F00
 	  </div>
 	</div>
 	<div class="rows">
-	　{% for post in site.posts %}
-		{% if post.category == 'F01' %}
-		<div class="col-md-3">
-			<a href="{{post.url}}" class="thumbnail">
-		      <img src="/resources/images/film/{{post.tag}}" alt="..." style="height: 240px; width: 100%; display: block;">
-		    </a>
-		    <h4><a href="{{post.url}}"><strong>变形金刚</strong></a></h4>
+		<div class="col-md-9">
+		　{% for post in site.posts %}
+			{% if post.category == 'F01' %}
+			<div class="col-md-3">
+				<a href="{{post.url}}" class="thumbnail">
+			      <img src="/resources/images/film/{{post.tag}}" alt="..." style="height: 300px; width: 100%; display: block;">
+			    </a>
+			    <h4><a href="{{post.url}}"><strong>{{post.title}}</strong></a></h4>
+			</div>
+			{% endif %}
+	　　　{% endfor %}
 		</div>
-		{% endif %}
-　　　{% endfor %}
 	</div>
 </div>
 {% include footer.html %}
