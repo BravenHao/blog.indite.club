@@ -4,8 +4,17 @@ title: 墨妄的博客
 ---
 		<ul>
 			<li>1 Sep 2014 <a href="http://blog.indite.club/docs/jekyll">Jekyll使用指南</a>&nbsp;<label class="label label-success">top</label></li>
-	　　　　{% for post in site.posts %}
+	　　　　{% for post in paginator.posts %}
 	　　　　　　<li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>{% if post.previous %}&nbsp;<label class="label label-danger">new</label>{% endif %}</li>
 	　　　　{% endfor %}
 	　　</ul>
+<div class="row">
+	<ul class="pagination">
+	<li class="prePage"><a href="{{paginator.previous_page_path}}" target="_self">上一页</a></li>
+	<li><a href="/passport/account/index/6/" target="_self">第{{paginator.page}}/{{paginator.total_pages}}页</a></li>
+	<li class="nextPage"><a href="{{paginator.next_page_path}}" target="_self">下一页</a></li>
+	<li><span>共 {{paginator.total_posts}}条</span></li>
+	<ul></ul>
+	</ul>
+</div>
 
