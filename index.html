@@ -5,7 +5,7 @@ title: 墨妄的博客
 		<ul>
 			<li>1 Sep 2014 <a href="http://blog.indite.club/docs/jekyll">Jekyll使用指南</a>&nbsp;<label class="label label-success">top</label></li>
 			{% for post in site.posts %}
-	　　　　 <li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>{% if 9 < {post.date |date:"%-m"} %}&nbsp;<label class="label label-danger">new</label>{% endif %}</li>
+	　　　　 <li>{{ post.date | date_to_string }} <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
 	　　　　 {% endfor %}
 	　　</ul>
 
