@@ -1,0 +1,22 @@
+---
+layout: article
+title: mysql导出指定数据库表字段数据
+category: A01
+---
+<h2>{{ page.title }}</h2>
+<pre>
+由于业务需求,需要导出某个表中的部分字段信息
+
+之前导出数据库表一直使用mysqldump命令,例如:
+
+mysqldump -hIP -uroot -P3306 -p 库 表 > 名字.sql
+
+但是如果导出指定字段的话,这个命令就不好用了,网上一般都介绍可以增加参数,如-w -e等,测试了一下,也不能达到效果
+
+最后采取的解决方案,如下:
+
+mysql -hIP-uadmin -p -P3306 库 -e "SELECT *,* from 表 INTO OUTFILE '/tmp/名字.sql'"
+
+
+</pre>
+<p>(转自：<a href="http://blog.csdn.net/happyitlife/article/details/9704899" target="blank">happyITLife的专栏</a>)</p>
